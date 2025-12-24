@@ -1,0 +1,293 @@
+import db from './db';
+
+export interface ShrineData {
+  name: string;
+  description: string;
+  color: string;
+  sections: {
+    name: string;
+    image_url: string;
+    items: { name: string; quantity: number; image_url: string }[];
+  }[];
+}
+
+const shrinesData: ShrineData[] = [
+  {
+    name: 'Harvest Shrine',
+    description: 'Dedicado às colheitas e cultivos',
+    color: '#C4A8E8', // Roxo pastel
+    sections: [
+      {
+        name: 'Spring Crops',
+        image_url: 'https://static.wikia.nocookie.net/coralisland/images/6/6b/Spring_Crops.png',
+        items: [
+          { name: 'Potato', quantity: 30 },
+          { name: 'Turnip', quantity: 30 },
+          { name: 'Cauliflower', quantity: 30 },
+          { name: 'Parsnip', quantity: 30 },
+          { name: 'Kale', quantity: 30 },
+        ],
+      },
+      {
+        name: 'Summer Crops',
+        image_url: 'https://static.wikia.nocookie.net/coralisland/images/3/3c/Summer_Crops.png',
+        items: [
+          { name: 'Tomato', quantity: 30 },
+          { name: 'Wheat', quantity: 30 },
+          { name: 'Radish', quantity: 30 },
+          { name: 'Poppy', quantity: 30 },
+          { name: 'Melon', quantity: 30 },
+        ],
+      },
+      {
+        name: 'Fall Crops',
+        image_url: 'https://static.wikia.nocookie.net/coralisland/images/9/9a/Fall_Crops.png',
+        items: [
+          { name: 'Corn', quantity: 30 },
+          { name: 'Eggplant', quantity: 30 },
+          { name: 'Pumpkin', quantity: 30 },
+          { name: 'Bok Choy', quantity: 30 },
+          { name: 'Yam', quantity: 30 },
+        ],
+      },
+      {
+        name: 'Quality Crops',
+        image_url: 'https://static.wikia.nocookie.net/coralisland/images/7/7c/Quality_Crops.png',
+        items: [
+          { name: 'Gold Star Crops', quantity: 50 },
+          { name: 'Osmium Star Crops', quantity: 20 },
+        ],
+      },
+      {
+        name: 'Flowers',
+        image_url: 'https://static.wikia.nocookie.net/coralisland/images/4/4e/Flowers.png',
+        items: [
+          { name: 'Tulip', quantity: 20 },
+          { name: 'Summer Spangle', quantity: 20 },
+          { name: 'Fairy Rose', quantity: 20 },
+          { name: 'Rafflesia', quantity: 10 },
+        ],
+      },
+      {
+        name: 'Tree Products',
+        image_url: 'https://static.wikia.nocookie.net/coralisland/images/a/a8/Tree_Products.png',
+        items: [
+          { name: 'Apple', quantity: 20 },
+          { name: 'Orange', quantity: 20 },
+          { name: 'Peach', quantity: 20 },
+          { name: 'Lychee', quantity: 20 },
+          { name: 'Mango', quantity: 20 },
+        ],
+      },
+    ],
+  },
+  {
+    name: 'Ocean Shrine',
+    description: 'Dedicado às criaturas do oceano',
+    color: '#A8D8E8', // Azul turquesa pastel
+    sections: [
+      {
+        name: 'Common Fish',
+        image_url: 'https://static.wikia.nocookie.net/coralisland/images/2/2e/Common_Fish.png',
+        items: [
+          { name: 'Sardine', quantity: 20 },
+          { name: 'Herring', quantity: 20 },
+          { name: 'Anchovy', quantity: 20 },
+          { name: 'Sea Cucumber', quantity: 15 },
+          { name: 'Coral', quantity: 15 },
+        ],
+      },
+      {
+        name: 'Uncommon Fish',
+        image_url: 'https://static.wikia.nocookie.net/coralisland/images/5/5a/Uncommon_Fish.png',
+        items: [
+          { name: 'Tuna', quantity: 15 },
+          { name: 'Red Snapper', quantity: 15 },
+          { name: 'Squid', quantity: 15 },
+          { name: 'Octopus', quantity: 10 },
+        ],
+      },
+      {
+        name: 'Rare Fish',
+        image_url: 'https://static.wikia.nocookie.net/coralisland/images/8/8c/Rare_Fish.png',
+        items: [
+          { name: 'Pufferfish', quantity: 10 },
+          { name: 'Blob Fish', quantity: 10 },
+          { name: 'Lion Fish', quantity: 10 },
+          { name: 'Shark', quantity: 5 },
+        ],
+      },
+      {
+        name: 'Crustaceans',
+        image_url: 'https://static.wikia.nocookie.net/coralisland/images/c/c9/Crustaceans.png',
+        items: [
+          { name: 'Clam', quantity: 20 },
+          { name: 'Mussel', quantity: 20 },
+          { name: 'Oyster', quantity: 20 },
+          { name: 'Scallop', quantity: 15 },
+          { name: 'Lobster', quantity: 10 },
+        ],
+      },
+      {
+        name: 'Beach Foraging',
+        image_url: 'https://static.wikia.nocookie.net/coralisland/images/d/d4/Beach_Foraging.png',
+        items: [
+          { name: 'Seaweed', quantity: 30 },
+          { name: 'Sea Urchin', quantity: 20 },
+          { name: 'Rainbow Shell', quantity: 15 },
+        ],
+      },
+    ],
+  },
+  {
+    name: 'Catch Shrine',
+    description: 'Dedicado aos produtos animais',
+    color: '#F8B4D4', // Rosa pastel
+    sections: [
+      {
+        name: 'Chicken Products',
+        image_url: 'https://static.wikia.nocookie.net/coralisland/images/1/1c/Chicken_Products.png',
+        items: [
+          { name: 'Egg', quantity: 50 },
+          { name: 'Large Egg', quantity: 30 },
+          { name: 'Brown Egg', quantity: 30 },
+        ],
+      },
+      {
+        name: 'Cow Products',
+        image_url: 'https://static.wikia.nocookie.net/coralisland/images/e/e5/Cow_Products.png',
+        items: [
+          { name: 'Milk', quantity: 50 },
+          { name: 'Large Milk', quantity: 30 },
+        ],
+      },
+      {
+        name: 'Sheep Products',
+        image_url: 'https://static.wikia.nocookie.net/coralisland/images/7/7a/Sheep_Products.png',
+        items: [{ name: 'Wool', quantity: 30 }],
+      },
+      {
+        name: 'Goat Products',
+        image_url: 'https://static.wikia.nocookie.net/coralisland/images/9/98/Goat_Products.png',
+        items: [
+          { name: 'Goat Milk', quantity: 30 },
+          { name: 'Large Goat Milk', quantity: 20 },
+        ],
+      },
+      {
+        name: 'Artisan Goods',
+        image_url: 'https://static.wikia.nocookie.net/coralisland/images/a/ab/Artisan_Goods.png',
+        items: [
+          { name: 'Cheese', quantity: 20 },
+          { name: 'Butter', quantity: 20 },
+          { name: 'Mayonnaise', quantity: 20 },
+          { name: 'Cloth', quantity: 15 },
+        ],
+      },
+      {
+        name: 'Honey',
+        image_url: 'https://static.wikia.nocookie.net/coralisland/images/f/f8/Honey.png',
+        items: [
+          { name: 'Honey', quantity: 30 },
+          { name: 'Tulip Honey', quantity: 10 },
+          { name: 'Fairy Rose Honey', quantity: 10 },
+        ],
+      },
+    ],
+  },
+  {
+    name: 'Advanced Shrine',
+    description: 'Dedicado aos itens raros e avançados',
+    color: '#B4E8B4', // Verde pastel
+    sections: [
+      {
+        name: 'Gems',
+        image_url: 'https://static.wikia.nocookie.net/coralisland/images/2/2c/Gems.png',
+        items: [
+          { name: 'Quartz', quantity: 15 },
+          { name: 'Emerald', quantity: 10 },
+          { name: 'Ruby', quantity: 10 },
+          { name: 'Diamond', quantity: 5 },
+          { name: 'Alexandrite', quantity: 3 },
+        ],
+      },
+      {
+        name: 'Minerals',
+        image_url: 'https://static.wikia.nocookie.net/coralisland/images/5/5c/Minerals.png',
+        items: [
+          { name: 'Copper Ore', quantity: 50 },
+          { name: 'Iron Ore', quantity: 50 },
+          { name: 'Gold Ore', quantity: 30 },
+          { name: 'Osmium Ore', quantity: 20 },
+        ],
+      },
+      {
+        name: 'Cooked Dishes',
+        image_url: 'https://static.wikia.nocookie.net/coralisland/images/9/9f/Cooked_Dishes.png',
+        items: [
+          { name: 'Fried Egg', quantity: 10 },
+          { name: 'Sashimi', quantity: 10 },
+          { name: 'Vegetable Stir Fry', quantity: 10 },
+          { name: 'Fish Stew', quantity: 10 },
+          { name: 'Pumpkin Soup', quantity: 10 },
+        ],
+      },
+      {
+        name: 'Foraged Items',
+        image_url: 'https://static.wikia.nocookie.net/coralisland/images/a/a7/Foraged_Items.png',
+        items: [
+          { name: 'Wild Horseradish', quantity: 20 },
+          { name: 'Daffodil', quantity: 20 },
+          { name: 'Leek', quantity: 20 },
+          { name: 'Spring Onion', quantity: 20 },
+          { name: 'Morel', quantity: 15 },
+        ],
+      },
+      {
+        name: 'Monster Drops',
+        image_url: 'https://static.wikia.nocookie.net/coralisland/images/c/c2/Monster_Drops.png',
+        items: [
+          { name: 'Slime', quantity: 30 },
+          { name: 'Bat Wing', quantity: 20 },
+          { name: 'Bug Meat', quantity: 20 },
+          { name: 'Bone Fragment', quantity: 15 },
+        ],
+      },
+    ],
+  },
+];
+
+export function seedDatabase() {
+  // Verificar se já existe dados
+  const existingShrines = db.prepare('SELECT COUNT(*) as count FROM shrines').get() as { count: number };
+
+  if (existingShrines.count > 0) {
+    console.log('Database already seeded');
+    return;
+  }
+
+  console.log('Seeding database...');
+
+  const insertShrine = db.prepare('INSERT INTO shrines (name, description, color) VALUES (?, ?, ?)');
+  const insertSection = db.prepare('INSERT INTO sections (shrine_id, name, image_url, order_index) VALUES (?, ?, ?, ?)');
+  const insertItem = db.prepare('INSERT INTO section_items (section_id, item_name, quantity) VALUES (?, ?, ?)');
+  const insertStatus = db.prepare('INSERT INTO completion_status (section_id, completed) VALUES (?, 0)');
+
+  shrinesData.forEach((shrine) => {
+    const shrineResult = insertShrine.run(shrine.name, shrine.description, shrine.color);
+    const shrineId = shrineResult.lastInsertRowid;
+
+    shrine.sections.forEach((section, index) => {
+      const sectionResult = insertSection.run(shrineId, section.name, section.image_url, index);
+      const sectionId = sectionResult.lastInsertRowid;
+
+      section.items.forEach((item) => {
+        insertItem.run(sectionId, item.name, item.quantity);
+      });
+
+      insertStatus.run(sectionId);
+    });
+  });
+
+  console.log('Database seeded successfully!');
+}

@@ -80,3 +80,35 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 20px rgba(34, 211, 238, 0.4), 0 0 40px rgba(34, 211, 238, 0.3), 0 0 60px rgba(34, 211, 238, 0.2);
+      border-color: rgb(34, 211, 238);
+    }
+    50% {
+      box-shadow: 0 0 30px rgba(34, 211, 238, 0.6), 0 0 60px rgba(34, 211, 238, 0.5), 0 0 90px rgba(34, 211, 238, 0.4);
+      border-color: rgb(103, 232, 249);
+    }
+  }
+
+  @keyframes pulse-subtle {
+    0%, 100% {
+      box-shadow: 0 0 10px rgba(34, 211, 238, 0.2), 0 0 20px rgba(34, 211, 238, 0.15);
+      border-color: rgb(34, 211, 238);
+    }
+    50% {
+      box-shadow: 0 0 15px rgba(34, 211, 238, 0.35), 0 0 30px rgba(34, 211, 238, 0.25);
+      border-color: rgb(103, 232, 249);
+    }
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  .animate-pulse-subtle {
+    animation: pulse-subtle 3s ease-in-out infinite;
+  }
+}

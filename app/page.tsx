@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import ShrineCard from '@/components/ShrineCard';
+import { Search } from 'lucide-react';
 
 interface Shrine {
   id: number;
@@ -15,7 +16,7 @@ interface Shrine {
 export default function Home() {
   const [shrines, setShrines] = useState<Shrine[]>([]);
   const [loading, setLoading] = useState(true);
-  const [totalProgress, setTotalProgress] = useState(0);
+  const [globalSearch, setGlobalSearch] = useState('');
 
   useEffect(() => {
     fetchShrines();
@@ -26,12 +27,6 @@ export default function Home() {
       const response = await fetch('/api/shrines');
       const data = await response.json();
       setShrines(data);
-
-      // Calcular progresso total
-      const totalSections = data.reduce((acc: number, shrine: Shrine) => acc + shrine.total_sections, 0);
-      const completedSections = data.reduce((acc: number, shrine: Shrine) => acc + shrine.completed_sections, 0);
-      const progress = totalSections > 0 ? Math.round((completedSections / totalSections) * 100) : 0;
-      setTotalProgress(progress);
     } catch (error) {
       console.error('Error fetching shrines:', error);
     } finally {
@@ -59,23 +54,29 @@ export default function Home() {
           </h1>
           <p className="text-xl text-purple-300 mb-6 tracking-wide">CORAL ISLAND - PROGRESS TRACKER</p>
 
-          <div className="max-w-2xl mx-auto bg-purple-950/60 backdrop-blur-sm rounded-2xl p-6 shadow-2xl border-2 border-purple-500">
-            <div className="flex justify-between items-center mb-3">
-              <span className="text-lg font-bold text-purple-200 tracking-wide">TOTAL PROGRESS</span>
-              <span className="text-3xl font-black text-purple-300">{totalProgress}%</span>
-            </div>
-            <div className="w-full bg-purple-950 rounded-full h-4 overflow-hidden border border-purple-700">
-              <div
-                className="h-full rounded-full bg-gradient-to-r from-purple-500 via-fuchsia-500 to-purple-600 transition-all duration-1000 ease-out shadow-lg shadow-purple-500/50"
-                style={{ width: `${totalProgress}%` }}
+          {/* Busca Global */}
+          <div className="max-w-2xl mx-auto mb-6">
+            <div className="relative">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 text-purple-400" />
+              <input
+                type="text"
+                placeholder="BUSCAR EM TODOS OS ALTARES..."
+                value={globalSearch}
+                onChange={(e) => setGlobalSearch(e.target.value)}
+                className="w-full pl-14 pr-6 py-4 bg-purple-950/60 border-2 border-purple-500 rounded-xl text-purple-100 placeholder-purple-400 focus:outline-none focus:border-fuchsia-500 focus:ring-2 focus:ring-fuchsia-500/50 font-bold tracking-wider uppercase transition-all text-lg backdrop-blur-sm shadow-2xl"
               />
             </div>
+            {globalSearch && (
+              <p className="text-xs text-purple-300 mt-2 tracking-wide text-center">
+                Buscando em todos os altares...
+              </p>
+            )}
           </div>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {shrines.map((shrine) => (
-            <ShrineCard key={shrine.id} shrine={shrine} />
+            <ShrineCard key={shrine.id} shrine={shrine} globalSearchTerm={globalSearch} />
           ))}
         </div>
 
